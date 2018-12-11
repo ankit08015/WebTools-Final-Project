@@ -1,0 +1,20 @@
+﻿@page "/adminhome"
+@layout MainLayout
+@inherits UserHomeModel
+
+
+<WdHeader Heading="Blogosphere" SubHeading="Welcome Admin"></WdHeader>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+        
+                @foreach (var post in blogPosts)
+                {
+                    <BlogPostPreview BlogPost=@post></BlogPostPreview>
+                    <hr />
+                }
+            
+        </div>
+    </div>
+</div>
