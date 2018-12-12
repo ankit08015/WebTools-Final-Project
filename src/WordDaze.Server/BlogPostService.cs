@@ -1,50 +1,97 @@
 using System;
 using System.Collections.Generic;
+using MongoDB.Driver;
 using System.Linq;
 using WordDaze.Shared;
+using WordDaze.Shared.Models;
 
 namespace WordDaze.Server
 {
     public class BlogPostService
     {
-        private List<BlogPost> _blogPosts;
+        private List<UserBost> _blogPosts;
+        UserDBContext db = new UserDBContext();
 
         public BlogPostService()
         {
-            _blogPosts = new List<BlogPost>();
+            _blogPosts = new List<UserBost>();
+            _blogPosts = GetBlogPosts();
         }
 
-        public List<BlogPost> GetBlogPosts() 
+        public List<UserBost> GetBlogPosts() 
         {
-            return _blogPosts;
+            try
+            {
+                return db.UserBostRecord.Find(_ => true).ToList();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public BlogPost GetBlogPost(int id) 
+        public UserBost GetBlogPost(string id) 
         {
-            return _blogPosts.SingleOrDefault(x => x.Id == id);
+            try
+            {
+                FilterDefinition<UserBost> filterUserBlogData = Builders<UserBost>.Filter.Eq("Id", id);
+
+                return db.UserBostRecord.Find(filterUserBlogData).FirstOrDefault();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public BlogPost AddBlogPost(BlogPost newBlogPost)
+        public UserBost AddBlogPost(UserBost newBlogPost)
         {
-            newBlogPost.Id = _blogPosts.Count + 1;
-            _blogPosts.Add(newBlogPost);
+            // newBlogPost.Id = _blogPosts.Count + 1;
+            try
+            {
+                db.UserBostRecord.InsertOne(newBlogPost);
+            }
+            catch
+            {
+                throw;
+            }
 
+            _blogPosts = GetBlogPosts();
             return newBlogPost;
         }
 
-        public void UpdateBlogPost(int postId, string updatedPost, string updateTitle)
+        public void UpdateBlogPost(string postId, string updatedPost, string updateTitle)
         {
             var originalBlogPost = _blogPosts.Find(x => x.Id == postId);
             
             originalBlogPost.Post = updatedPost;
             originalBlogPost.Title = updateTitle;
+
+            try
+            {
+                db.UserBostRecord.ReplaceOne(filter: g => g.Id == originalBlogPost.Id, replacement: originalBlogPost);
+            }
+            catch
+            {
+                throw;
+            }
+
         }
 
-        public void DeleteBlogPost(int postId) 
+        public void DeleteBlogPost(string postId) 
         {
             var blogPost = _blogPosts.Find(x => x.Id == postId);
 
-            _blogPosts.Remove(blogPost);
+            try
+            {
+                FilterDefinition<UserBost> userBlogData = Builders<UserBost>.Filter.Eq("Id", postId);
+                db.UserBostRecord.DeleteOne(userBlogData);
+            }
+            catch
+            {
+                throw;
+            }
+
         }
     }
 }

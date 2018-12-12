@@ -1,4 +1,5 @@
 using WordDaze.Shared;
+using WordDaze.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace WordDaze.Server.Controllers
         }
 
         [HttpGet(Urls.BlogPost)]
-        public IActionResult GetBlogPostById(int id)
+        public IActionResult GetBlogPostById(string id)
         {
             var blogPost = _blogPostService.GetBlogPost(id);
 
@@ -35,7 +36,7 @@ namespace WordDaze.Server.Controllers
 
         [Authorize]
         [HttpPost(Urls.AddBlogPost)]
-        public IActionResult AddBlogPost([FromBody]BlogPost newBlogPost)
+        public IActionResult AddBlogPost([FromBody]UserBost newBlogPost)
         {
             newBlogPost.Author = Request.HttpContext.User.Identity.Name;
             var savedBlogPost = _blogPostService.AddBlogPost(newBlogPost);
@@ -45,7 +46,7 @@ namespace WordDaze.Server.Controllers
 
         [Authorize]
         [HttpPut(Urls.UpdateBlogPost)]
-        public IActionResult UpdateBlogPost(int id, [FromBody]BlogPost updatedBlogPost)
+        public IActionResult UpdateBlogPost(string id, [FromBody]UserBost updatedBlogPost)
         {
             _blogPostService.UpdateBlogPost(id, updatedBlogPost.Post, updatedBlogPost.Title);
 
@@ -54,7 +55,7 @@ namespace WordDaze.Server.Controllers
 
         [Authorize]
         [HttpDelete(Urls.DeleteBlogPost)]
-        public IActionResult DeleteBlogPost(int id)
+        public IActionResult DeleteBlogPost(string id)
         {
             _blogPostService.DeleteBlogPost(id);
 

@@ -20,7 +20,7 @@ namespace WordDaze.Client.Features.Login
 
             if (_appState.IsLoggedIn)
             {
-                _uriHelper.NavigateTo("/");
+                _uriHelper.NavigateTo("/adminhome");
             }
             else
             {

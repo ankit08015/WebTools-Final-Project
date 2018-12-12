@@ -117,29 +117,7 @@ namespace WordDaze.Server.DataAccess
             }
         }
         
-        //to get list of all blogs by particular user
-        public List<UserBost> GetBlogDataByUser(string userId)
-        {
 
-            try
-            {
-                List<UserBost> bl = new List<UserBost>();
-                List<UserBost> comBl= db.UserBostRecord.Find(_ => true).ToList();
-                foreach(UserBost ub in comBl)
-                {
-                    if (ub.UserId.Equals(userId))
-                    {
-                        bl.Add(ub);
-                    }
-                }
-                return bl;
-
-            }
-            catch
-            {
-                throw;
-            }
-        }
 
         //To Add new blog record       
         public void AddUserBlog(UserBost blog)
@@ -163,6 +141,24 @@ namespace WordDaze.Server.DataAccess
                 FilterDefinition<UserBost> filterUserBlogData = Builders<UserBost>.Filter.Eq("Id", id);
 
                 return db.UserBostRecord.Find(filterUserBlogData).FirstOrDefault();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void UpdateBlogPost(int id, string post, string title)
+        {
+            try
+            {
+                FilterDefinition<UserBost> filterUserBlogData = Builders<UserBost>.Filter.Eq("Id", id);
+
+                UserBost blog= db.UserBostRecord.Find(filterUserBlogData).FirstOrDefault();
+                blog.Post = post;
+                blog.Title = title;
+                db.UserBostRecord.ReplaceOne(filter: g => g.Id == blog.Id, replacement: blog);
+
             }
             catch
             {

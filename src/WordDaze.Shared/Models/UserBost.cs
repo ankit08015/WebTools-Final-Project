@@ -12,7 +12,7 @@ namespace WordDaze.Shared.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string UserId { get; set; }
+        //public string UserId { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public DateTime Posted { get; set; }

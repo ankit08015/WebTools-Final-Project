@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Markdig;
 using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Components;
+using WordDaze.Shared.Models;
 using WordDaze.Shared;
 
 namespace WordDaze.Client.Features.ViewPost
@@ -14,7 +15,7 @@ namespace WordDaze.Client.Features.ViewPost
 
         [Parameter] protected string PostId { get; set; }
 
-        protected BlogPost BlogPost { get; set; } = new BlogPost();
+        protected UserBost BlogPost { get; set; } = new UserBost();
 
         protected override async Task OnInitAsync()
         {
@@ -23,7 +24,7 @@ namespace WordDaze.Client.Features.ViewPost
 
         private async Task LoadBlogPost() 
         {
-            BlogPost = await _httpClient.GetJsonAsync<BlogPost>(Urls.BlogPost.Replace("{id}", PostId));
+            BlogPost = await _httpClient.GetJsonAsync<UserBost>(Urls.BlogPost.Replace("{id}", PostId));
             BlogPost.Post = Markdown.ToHtml(BlogPost.Post);
         }
     }

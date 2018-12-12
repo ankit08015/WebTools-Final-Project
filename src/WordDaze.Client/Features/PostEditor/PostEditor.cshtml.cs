@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Components;
 using Microsoft.AspNetCore.Blazor.Services;
 using Microsoft.JSInterop;
+using WordDaze.Shared.Models;
 using WordDaze.Shared;
 
 namespace WordDaze.Client.Features.PostEditor
@@ -20,7 +21,7 @@ namespace WordDaze.Client.Features.PostEditor
         protected string Post { get; set; }
         protected string Title { get; set; }
         protected int CharacterCount { get; set; }
-        protected BlogPost ExistingBlogPost { get; set; } = new BlogPost();
+        protected UserBost ExistingBlogPost { get; set; } = new UserBost();
         protected bool IsEdit => string.IsNullOrEmpty(PostId) ? false : true;
 
         protected ElementRef editor;
@@ -41,13 +42,13 @@ namespace WordDaze.Client.Features.PostEditor
 
         public async Task SavePost() 
         {
-            var newPost = new BlogPost() {
+            var newPost = new UserBost() {
                 Title = Title,
                 Post = Post,
                 Posted = DateTime.Now
             };
 
-            var savedPost = await _httpClient.PostJsonAsync<BlogPost>(Urls.AddBlogPost, newPost);
+            var savedPost = await _httpClient.PostJsonAsync<UserBost>(Urls.AddBlogPost, newPost);
 
             _uriHelper.NavigateTo($"viewpost/{savedPost.Id}");
         }
@@ -68,7 +69,7 @@ namespace WordDaze.Client.Features.PostEditor
 
         private async Task LoadPost() 
         {
-            ExistingBlogPost = await _httpClient.GetJsonAsync<BlogPost>(Urls.BlogPost.Replace("{id}", PostId));
+            ExistingBlogPost = await _httpClient.GetJsonAsync<UserBost>(Urls.BlogPost.Replace("{id}", PostId));
             CharacterCount = ExistingBlogPost.Post.Length;
         }
     }

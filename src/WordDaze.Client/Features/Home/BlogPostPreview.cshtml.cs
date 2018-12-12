@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Blazor.Components;
-using WordDaze.Shared;
+using WordDaze.Shared.Models;
 
 namespace WordDaze.Client.Features.Home
 {
     public class BlogPostPreviewModel : BlazorComponent
     {
-        [Parameter] protected BlogPost blogPost { get; set; }
+        [Parameter] protected UserBost blogPost { get; set; }
     }
 }

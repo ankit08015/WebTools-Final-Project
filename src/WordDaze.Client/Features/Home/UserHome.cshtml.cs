@@ -14,7 +14,7 @@ namespace WordDaze.Client.Features.Home
     {
         [Inject] private HttpClient _httpClient { get; set; }
 
-        protected List<BlogPost> blogPosts { get; set; } = new List<BlogPost>();
+        protected List<UserBost> blogPosts { get; set; } = new List<UserBost>();
 
         protected override async Task OnInitAsync()
         {
@@ -23,7 +23,7 @@ namespace WordDaze.Client.Features.Home
 
         private async Task LoadBlogPosts()
         {
-            var blogPostsResponse = await _httpClient.GetJsonAsync<List<BlogPost>>(Urls.BlogPosts);
+            var blogPostsResponse = await _httpClient.GetJsonAsync<List<UserBost>>(Urls.BlogPosts);
             blogPosts = blogPostsResponse.OrderByDescending(p => p.Posted).ToList();
         }
     }
