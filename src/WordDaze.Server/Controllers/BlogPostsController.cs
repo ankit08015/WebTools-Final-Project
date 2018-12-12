@@ -34,6 +34,13 @@ namespace WordDaze.Server.Controllers
             return Ok(blogPost);
         }
 
+        [HttpGet]
+        [Route("api/Blog/User/{userId}")]
+        public IEnumerable<UserBost> BlogDataByUserId(string id)
+        {
+            return _blogPostService.GetBlogDataByUser(id);
+        }
+
         [Authorize]
         [HttpPost(Urls.AddBlogPost)]
         public IActionResult AddBlogPost([FromBody]UserBost newBlogPost)

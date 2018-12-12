@@ -30,6 +30,30 @@ namespace WordDaze.Server
             }
         }
 
+        //to get list of all blogs by particular user
+        public List<UserBost> GetBlogDataByUser(string userId)
+        {
+
+            try
+            {
+                List<UserBost> bl = new List<UserBost>();
+                List<UserBost> comBl = db.UserBostRecord.Find(_ => true).ToList();
+                foreach (UserBost ub in comBl)
+                {
+                    if (ub.UserId.Equals(userId))
+                    {
+                        bl.Add(ub);
+                    }
+                }
+                return bl;
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public UserBost GetBlogPost(string id) 
         {
             try
